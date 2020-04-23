@@ -5,7 +5,11 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   username: String,
   googleId: String,
-  thumbnail: String
+  thumbnail: String,
+  facebookId: String,
+  displayName: String,
+  email: String,
+  picture: String
 });
 
 // userSchema.pre('save', async function(next) {

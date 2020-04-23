@@ -1,5 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
+const FacebookStrategy = require('passport-facebook');
 const User = require('../models/user.model');
 
 require('dotenv').config();
@@ -16,15 +17,14 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-passport.use(
-  new GoogleStrategy({
-    //passport config
-    callbackURL: '/auth/google/redirect',
-    clientID: process.env.GG_CLIENT_ID,
-    clientSecret: process.env.GG_CLIENT_SECRET
-  }, (accessToken, refreshToken, profile, done) => {
-    //passport callback function
-    console.log('passport callback function got call');
+passport.use(new GoogleStrategy({
+  //passport config
+  callbackURL: '/auth/google/redirect',
+  clientID: process.env.GG_CLIENT_ID,
+  clientSecret: process.env.GG_CLIENT_SECRET
+}, (accessToken, refreshToken, profile, done) => {
+  //passport callback function
+    console.log('passport google callback function got call');
     console.log(profile);
     //check if user already exists in db
     User.findOne({googleId: profile.id}).then((currentUser) => {
@@ -45,5 +45,38 @@ passport.use(
       }
     })
     
+  })
+)
+
+passport.use(new FacebookStrategy({
+  //passport config
+  callbackURL: '/auth/facebook/redirect',
+  clientID: process.env.FB_CLIENT_ID,
+  clientSecret: process.env.FB_CLIENT_SECRET,
+  profileFields: ['id', 'displayName', 'photos', 'email']
+  }, (accessToken, refreshToken, profile, done) => {
+    //passport callback function
+    console.log('passport facebook callback function got call');
+    console.log(accessToken)
+    console.log(profile)
+    // check if user already exists in db
+    User.findOne({facebookId: profile.id}).then((currentUser) => {
+      if(currentUser){
+        //already have the user in db
+        console.log('user is:', currentUser);
+        done(null, currentUser); // call next state to serializeUser
+      }else {
+        // if not, create in db
+        new User({
+          displayName: profile.displayName,
+          facebookId: profile.id,
+          email: profile.emails[0].value,
+          picture: profile.photos[0].value
+        }).save().then((newUser) => {
+          console.log('new user created:' + newUser);
+          done(null, newUser); // call next state to serializeUser
+        });
+      }
+    })
   })
 )

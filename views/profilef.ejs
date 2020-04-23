@@ -8,36 +8,30 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- load fontawesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 <body>
 
   <div class="container">
-
-    <!-- <div class="jumbotron text-center">
-        <h1><span class="fa fa-lock"></span> Landing Page</h1>
-        <a href="/auth/login" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
-        <a href="/auth/logout" class="btn btn-default"><span class="fa fa-user"></span> Logout</a>
-        <a href="/" class="btn btn-default"><span class="fa fa-user"></span> Langing page</a>
-        <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span> Langing page</a>
-    </div> -->
-
+  
     <div class="jumbotron text-center">
-      <h1>THIS IS HOME</h1>   
-      <a href="/" class="btn btn-default"><span class="fa fa-user"></span> HOME</a>
       <% if (user) { %>
         <a href="/auth/logout" class="btn btn-default"><span class="fa fa-user"></span> LOG OUT</a>
-        <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span> PROFILE</a>
-        <% } else { %>
+        <a href="/profilef" class="btn btn-default"><span class="fa fa-user"></span> PROFILEF</a>
 
-           <div class="jumbotron text-center">
-             <h3>Log in with:</h3>
+        <h1>THIS IS PROFILE</h1>
+        <div class="jumbotron text-center">
+          <h1>Welcomeee, <%= user.displayName %></h1>        
+      </div>
+        <% } else { %>
       <a href="/auth/google" class="btn btn-default"><span class="fa fa-user"></span> Google</a>
       <a href="/auth/facebook" class="btn btn-default"><span class="fa fa-user"></span> Facebook</a>
-          </div>
-   
       <% } %>
-   
+      <a href="/" class="btn btn-default"><span class="fa fa-user"></span> HOME</a>
 
+  </div>
+  <div class="jumbotron text-center">
+    <img src="<%= user.picture %>" />
   </div>
 
 </div>
