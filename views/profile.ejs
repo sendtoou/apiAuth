@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+    <!-- load bootstrap css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- load fontawesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+
+  <div class="container">
+  
+    <div class="jumbotron text-center">
+      <% if (user) { %>
+        <a href="/auth/logout" class="btn btn-default"><span class="fa fa-user"></span> LOG OUT</a>
+        <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span> PROFILE</a>
+
+        <h1>THIS IS PROFILE</h1>
+        <div class="jumbotron text-center">
+          <h1>Welcome, <%= user.username %></h1>        
+      </div>
+        <% } else { %>
+      <a href="/auth/google" class="btn btn-default"><span class="fa fa-user"></span> Google</a>
+      <% } %>
+      <a href="/" class="btn btn-default"><span class="fa fa-user"></span> HOME</a>
+
+  </div>
+  <div class="jumbotron text-center">
+    <img src="<%= user.thumbnail %>" />
+  </div>
+
+</div>
+  
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+    <!-- load bootstrap css -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- load fontawesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- <div class="jumbotron text-center">
+        <h1><span class="fa fa-lock"></span> Landing Page</h1>
+        <a href="/auth/login" class="btn btn-default"><span class="fa fa-user"></span> Login</a>
+        <a href="/auth/logout" class="btn btn-default"><span class="fa fa-user"></span> Logout</a>
+        <a href="/" class="btn btn-default"><span class="fa fa-user"></span> Langing page</a>
+        <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span> Langing page</a>
+    </div> -->
+
+    <div class="jumbotron text-center">
+      <h1>THIS IS HOME</h1>   
+      <a href="/" class="btn btn-default"><span class="fa fa-user"></span> HOME</a>
+      <% if (user) { %>
+        <a href="/auth/logout" class="btn btn-default"><span class="fa fa-user"></span> LOG OUT</a>
+        <a href="/profile" class="btn btn-default"><span class="fa fa-user"></span> PROFILE</a>
+        <% } else { %>
+
+           <div class="jumbotron text-center">
+             <h3>Log in with:</h3>
+      <a href="/auth/google" class="btn btn-default"><span class="fa fa-user"></span> Google</a>
+          </div>
+   
+      <% } %>
+   
+
+  </div>
+
+</div>
+  
+</body>
+</html>
