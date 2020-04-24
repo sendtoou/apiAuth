@@ -1,6 +1,7 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20');
 const FacebookStrategy = require('passport-facebook');
+const LineStrategy = require('passport-line');
 const User = require('../models/user.model');
 
 require('dotenv').config();
@@ -24,8 +25,8 @@ passport.use(new GoogleStrategy({
   clientSecret: process.env.GG_CLIENT_SECRET
 }, (accessToken, refreshToken, profile, done) => {
   //passport callback function
-    console.log('passport google callback function got call');
-    console.log(profile);
+    // console.log('passport google callback function got call');
+    // console.log(profile);
     //check if user already exists in db
     User.findOne({googleId: profile.id}).then((currentUser) => {
       if(currentUser){
@@ -55,10 +56,9 @@ passport.use(new FacebookStrategy({
   clientSecret: process.env.FB_CLIENT_SECRET,
   profileFields: ['id', 'displayName', 'photos', 'email']
   }, (accessToken, refreshToken, profile, done) => {
-    //passport callback function
-    console.log('passport facebook callback function got call');
-    console.log(accessToken)
-    console.log(profile)
+    // console.log('passport facebook callback function got call');
+    // console.log(accessToken)
+    // console.log(profile)
     // check if user already exists in db
     User.findOne({facebookId: profile.id}).then((currentUser) => {
       if(currentUser){
@@ -80,3 +80,33 @@ passport.use(new FacebookStrategy({
     })
   })
 )
+
+passport.use(new LineStrategy({
+  channelID: process.env.LI_CHANNEL_ID,
+  channelSecret: process.env.LI_CHANNEL_SERECT,
+  callbackURL: '/auth/line/redirect',
+  scope: ['profile', 'openid', 'email'],
+  botPrompt: 'normal'
+}, (accessToken, refreshToken, params, profile, done) => {
+console.log('passport line callback function got call');
+    console.log(accessToken)
+    console.log(profile)
+    User.findOne({lineId: profile.id}).then((currentUser) => {
+      if(currentUser){
+        //already have the user in db
+        console.log('user is:', currentUser);
+        done(null, currentUser); // call next state to serializeUser
+      }else {
+        // if not, create in db
+        new User({
+          displayName: profile.displayName,
+          lineId: profile.id,
+          email: profile.email,
+          picture: profile.pictureUrl
+        }).save().then((newUser) => {
+          console.log('new user created:' + newUser);
+          done(null, newUser); // call next state to serializeUser
+        });
+      }
+    })
+}));

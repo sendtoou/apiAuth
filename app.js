@@ -2,6 +2,7 @@ const express = require('express');
 const authRoutes = require('./routes/auth.route');
 const profileRoutes = require('./routes/profile.route');
 const profilefRoutes = require('./routes/profilef.route');
+const profilelRoutes = require('./routes/profilel.route');
 const passportSetup = require('./config/passportSetup');
 const conn = require('./config/conn')
 const cookieSession = require('cookie-session');
@@ -23,6 +24,7 @@ app.use(passport.session());
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
 app.use('/profilef', profilefRoutes);
+app.use('/profilel', profilelRoutes);
 
 app.get('/', (req, res) => {
   res.render('home', { user: req.user })

@@ -9,7 +9,8 @@ const userSchema = new Schema({
   facebookId: String,
   displayName: String,
   email: String,
-  picture: String
+  picture: String,
+  lineId: String
 });
 
 // userSchema.pre('save', async function(next) {
